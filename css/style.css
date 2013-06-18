@@ -1,0 +1,9 @@
+body {
+    background-color: #000000;
+    color: #ffffff;
+}
+
+.tinyText {
+    color: 999999;
+    font-size: small;
+}
