@@ -15,10 +15,22 @@
 // Determine use-case (compose new note, submit new note, view note, display error)
 
 // Show the header
-include "include/header.php";
+require "include/header.php";
 
 // Show stuff here depending on use-case.
-
+?>
+<span class="functionalDesc">Welcome to DestructoPad.</span>
+<div class="warningText">
+<span class="warningHeader">Warning:</span>
+Blah blah bah..
+</div>
+<form name="addPad" method="post" action=".">
+<textarea name="pad" type="text" cols=80 rows=40 class="padBox" />
+</textarea>
+<br />
+<input name="submit" type="submit" value="Create Pad" class="cpButton" />
+</form>
+<?php
 // Show the footer
-include "include/footer.php";
+require "include/footer.php";
 ?>
