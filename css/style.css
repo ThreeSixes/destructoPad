@@ -4,6 +4,33 @@ body {
 }
 
 .tinyText {
-    color: 999999;
+    color: #999999;
     font-size: small;
+}
+
+.padBox {
+    color: #ffffff;
+    background-color: #000000;
+}
+
+.cpButton {
+    color: #e1e1e1;
+    background-color: #000000;
+}
+
+.functionalDesc {
+    font-size: medium;
+    color: inherit;
+}
+
+.warningText {
+    font-szie: medium;
+    background-color: #aaaaaa;
+    color: #ffff00;
+    border: dashed;
+    border-width: thin;
+}
+
+.warningHeader {
+    font-weight: bold;
 }
