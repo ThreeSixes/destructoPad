@@ -22,6 +22,13 @@ BEGIN
 END ?
 
 DELIMITER ?
+CREATE PROCEDURE getPad(IN hash BINARY(32), OUT padDataOut BLOB)
+BEGIN
+    SELECT padData INTO padDataOut FROM padEntry WHERE padID = hash LIMIT 1;
+    DELETE FROM padEntry WHERE padID = hash;
+END ?
+
+DELIMITER ?
 CREATE PROCEDURE expirePad()
 BEGIN
     DELETE FROM padEntry WHERE padExpire <= 0;
@@ -31,4 +38,7 @@ END ?
 -- These don't work for some reason...
 --GRANT EXECUTE ON addPad TO 'padProc'@'localhost';
 --GRANT EXECUTE ON expirePad TO 'padUpdateProc'@'localhost';
+
+
+
 
