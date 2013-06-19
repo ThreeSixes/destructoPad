@@ -10,7 +10,7 @@ class destructoPadData {
      ********************/
     
     // Constants
-    const DP_MODE_MYSQL = 0;
+    const DP_MODE_MYSQL = 0; // Put the data layer in MySQL mode.
     
     // Data layer mode
     private $dlMode = NULL;
@@ -36,15 +36,42 @@ class destructoPadData {
      * Private functions *
      *********************/
     
+    // SECTION: MySQL
+    
     // Open a connection to our MySQL DB
     // and return the MySQL link ID.
     private function mysqlCreateConn() {
         // Set up return value.
-        $retVal['connID'] = NULL;
         $retVal['success'] = FALSE;
         $retVal['error'] = NULL;
         
+        // Open a MySQLi connection using our configured parameters
+        $this->mysqlDbConn = new mysqli($this->mysqlDbHost, $this->mysqlDbUser, $this->mysqlDbPass, $this->mysqlDbName);
+        if ($this->mysqlDbConn->errno) {
+            $retVal['error'] = "MySQL error on connection: " . $this->mysqlDbConn->connect_error . " - " . $this->mysqlDbConn->connect_error;
+        }
+        else {
+            $retVal['success'] = TRUE;
+        }
         
+        // Return results.
+        return $retVal;
+    }
+    
+    // Close our MySQL connection
+    private function mysqlCloseConn() {
+        // Set up return value
+        $retVal['success'] = FALSE;
+        $retVal['error'] = NULL;
+        
+        // Close the connection
+        $this->mysqlDbConn->close();
+        if ($this->mysqlDbConn->errno) {
+            $retVal['error'] = "MySQL error on closing connection: " . $this->mysqlDbConn->connect_error . " - " . $this->mysqlDbConn->connect_error;
+        }
+        else {
+            $retVal['success'] = TRUE;
+        }
         
         // Return results.
         return $retVal;
@@ -116,6 +143,7 @@ class destructoPadData {
             // If I'm in MySQL mode
             case self::DP_MODE_MYSQL:
                 // Get the data using MySQL
+                echo "DEBUG: In MySQL mode.\n";
                 $retVal = $this->mysqlGetPad($t_messageID);
                 break;
             default:
