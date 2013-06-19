@@ -38,7 +38,3 @@ END ?
 -- These don't work for some reason...
 --GRANT EXECUTE ON addPad TO 'padProc'@'localhost';
 --GRANT EXECUTE ON expirePad TO 'padUpdateProc'@'localhost';
-
-
-
-
