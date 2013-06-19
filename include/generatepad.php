@@ -6,7 +6,7 @@
  */
 
  // Get the post data so we can do something useful with it...
- $padData = utf8_encode($POST['pad']);
+ $padData = utf8_encode($_POST['pad']);
  
  // Just for giggles, let's dump the pad as a test.
  echo utf8_decode($padData);
