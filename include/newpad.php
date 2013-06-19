@@ -1,6 +1,4 @@
-    <span class="functionalDesc">Welcome to DestructoPad.
-    <br />
-    Type the message you wish to convey into the text box below, click the "Create Pad" button, and you will be presented with a one-time URL that can be sent to another person.</span>
+    <span class="functionalDesc">Type the message you wish to convey into the text box below, click the "Create Pad" button, and you will be presented with a one-time URL that can be sent to another person.</span>
     <br />
     <div class="warningText">
         <span class="warningHeader">Warning:</span>
