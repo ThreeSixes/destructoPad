@@ -16,13 +16,21 @@
     /* Text input configuration */
     
     // This is the maximum amount of text in bytes we want.
-    private $textStorageSize = 0; // Governed by space limitations or data layer limitation.
+    private $textStorageSize = 65000; // Governed by space limitations or data layer limitation.
     
     /* Text output configuration */
     
     private $textOutMime = "text/plain"; // Default: text/plain
     private $textOutCharset = "utf8"; // Default: utf8
-        
+    
+    /* Pad expiration configuration */
+    
+    // This sets the min and max values for expiration time...
+    // We want a min and max to help prevent someone from figuring out
+    // when the pad was created should the database be compromised...
+    private $padExpireMin = 8; // In hours...
+    private $padExpireMax = 12; // In hours...
+    
     // Constructor
     function destructoPad() {
         // Set up a reference to ourself.
@@ -244,6 +252,25 @@
         $retGuid = substr($uniqeSeed, 0, 8) . "-". substr($uniqeSeed, 8, 4) . "-". substr($uniqeSeed, 12, 4) . "-". substr($uniqeSeed, 16, 4) . "-". substr($uniqeSeed, 20, 12);
         
         return $retGuid;
+    }
+    
+    // Get the encryption algorithm we're using.
+    public function getEncryptionAlgo() {
+	return $this->cipher;
+    }
+    
+    // Get the max storage amount offset by the encryption overhead.
+    public function getMaxPadSize() {
+	return $this->textStorageSize - $this->getOverheadSize($this->algoBlockSize - 1);
+    }
+    
+    // Get the expiration time range...
+    public function getPadExpireRange() {
+	// Set the output array...
+	$retVal['min'] = $this->padExpireMin;
+	$retVal['max'] = $this->padExpireMax;
+	
+	return $retVal;
     }
 }
 
