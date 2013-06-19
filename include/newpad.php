@@ -14,8 +14,7 @@
     </div>
     <br />
     <form name="addPad" method="post" action="">
-        <textarea name="pad" type="text" class="padBox" />
-        </textarea>
+        <textarea name="pad" type="text" class="padBox" /></textarea>
         <br />
         <input name="submit" type="submit" value="Create Pad" class="cpButton" />
     </form>
