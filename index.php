@@ -17,14 +17,48 @@ require('include/destructoPad.php');
 // Create our destructoPad object
 $dp = new destructoPad();
 
+// Set default use-case:
+$thisUseCase = "createPad";
+
 // Determine use-case (compose new note, submit new note, view note, display error)
-// Looks like someone just attempted to submit a pad...
-print_r($_POST);
-// Show the header
-require('include/header.php');
-// Meow.
-require('include/newpad.php');
-// Show the footer
-require ('include/footer.php');
+if ($_POST['submit'] == "Create Pad") {
+    // The form was submitted with a new pad.
+    $thisUseCase = "generatePad";
+} elseif ($_GET['targetPad'] != NULL) {
+    // A user had performed a "get" against us.
+    $thisUseCase = "getPad";
+}
+
+// Change behavior based on the use-case...
+// the default use case is always createPad.
+switch($thisUseCase) {
+    case "generatePad":
+        // Get our header...
+        require('include/header.php');
+        // Show the HTML to create the new pad...
+        require('include/newpad.php');
+        // Show the footer...
+        require ('include/footer.php');
+        break;
+    case "getPad":
+        break;
+    case "createPad":
+        // Get our header...
+        require('include/header.php');
+        // Show the HTML to create the new pad...
+        require('include/newpad.php');
+        // Show the footer...
+        require ('include/footer.php');
+        break;
+    default:
+        // Error.
+        // Get our header...
+        require('include/header.php');
+        echo "      WTF was that!?";
+        // Get our header...
+        require('include/header.php');
+        break;
+
+}
 
 ?>
