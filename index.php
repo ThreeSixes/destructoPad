@@ -35,26 +35,39 @@ switch($thisUseCase) {
     case "generatePad":
         // Get our header...
         require('include/header.php');
-        // Show the HTML to create the new pad...
-        require('include/newpad.php');
+        
+        // THIS IS WHERE we require the code that
+        // encrypts the pad and places it in the data
+        // layer goes
+        
         // Show the footer...
         require ('include/footer.php');
+        
         break;
     case "getPad":
+        // This is where we return the pad as plain text.
+        
         break;
     case "createPad":
         // Get our header...
         require('include/header.php');
         // Show the HTML to create the new pad...
+        
+        // Show the HTML to create the new pad...
         require('include/newpad.php');
+        
         // Show the footer...
         require ('include/footer.php');
         break;
     default:
-        // Error.
+        // Something went really wrong if we're in this block.
+        
         // Get our header...
         require('include/header.php');
+        
+        // Display a confusing error message.
         echo "      WTF was that!?";
+        
         // Get our header...
         require('include/header.php');
         break;
