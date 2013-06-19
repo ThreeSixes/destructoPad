@@ -36,6 +36,8 @@ switch($thisUseCase) {
         // Get our header...
         require('include/header.php');
         
+        echo "Trying to generate pad...";
+        
         // This bit is responsible for encrypting the pad,
         // generating the GUID and URL, and handing the
         // encrypted pad off to the data layer for storage.
