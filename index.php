@@ -36,9 +36,10 @@ switch($thisUseCase) {
         // Get our header...
         require('include/header.php');
         
-        // THIS IS WHERE we require the code that
-        // encrypts the pad and places it in the data
-        // layer goes
+        // This bit is responsible for encrypting the pad,
+        // generating the GUID and URL, and handing the
+        // encrypted pad off to the data layer for storage.
+        require('include/generatepad.php');
         
         // Show the footer...
         require ('include/footer.php');
@@ -51,8 +52,7 @@ switch($thisUseCase) {
     case "createPad":
         // Get our header...
         require('include/header.php');
-        // Show the HTML to create the new pad...
-        
+       
         // Show the HTML to create the new pad...
         require('include/newpad.php');
         
