@@ -20,7 +20,6 @@ class destructoPadData {
     private $mysqlDbUser = "padProc";
     private $mysqlDbPass = "Blah@ASD4q5FA4asb";
     private $mysqlDbName = "destructoPad";
-    private $mysqlDbConn = NULL;
     
     // Class constructor
     function destructoPadData($t_mode) {
@@ -44,11 +43,13 @@ class destructoPadData {
         // Set up return value.
         $retVal['success'] = FALSE;
         $retVal['error'] = NULL;
+        $retVla['conn'] = NULL;
         
         // Open a MySQLi connection using our configured parameters
-        $this->mysqlDbConn = new mysqli($this->mysqlDbHost, $this->mysqlDbUser, $this->mysqlDbPass, $this->mysqlDbName);
-        if ($this->mysqlDbConn->errno) {
-            $retVal['error'] = "MySQL error on connection: " . $this->mysqlDbConn->connect_error . " - " . $this->mysqlDbConn->connect_error;
+        $retVal['conn'] = new mysqli($this->mysqlDbHost, $this->mysqlDbUser, $this->mysqlDbPass, $this->mysqlDbName);
+        if ($retVal['conn']->errno) {
+            $retVal['error'] = "MySQL error on connection: " . $retVal['conn']->connect_error . " - " . $retVal['conn']->connect_error;
+            print_r($retVal);
         }
         else {
             $retVal['success'] = TRUE;
@@ -59,15 +60,15 @@ class destructoPadData {
     }
     
     // Close our MySQL connection
-    private function mysqlCloseConn() {
+    private function mysqlCloseConn($t_conn) {
         // Set up return value
         $retVal['success'] = FALSE;
         $retVal['error'] = NULL;
         
         // Close the connection
-        $this->mysqlDbConn->close();
-        if ($this->mysqlDbConn->errno) {
-            $retVal['error'] = "MySQL error on closing connection: " . $this->mysqlDbConn->errno . " - " . $this->mysqlDbConn->connect_error;
+        $t_conn->close();
+        if ($t_conn->errno) {
+            $retVal['error'] = "MySQL error on closing connection: " . $t_conn->errno . " - " . $t_conn->connect_error;
         }
         else {
             $retVal['success'] = TRUE;
@@ -83,16 +84,20 @@ class destructoPadData {
         $retVal['success'] = FALSE;
         $retVal['error'] = NULL;
         
-        // Build our statement "engine"...
-        $addStmt = $this->mysqlDbConn->stmt_init();
+        // Open the database.
+        $openEngine = $this->mysqlCreateConn();
+        $dbEngine = $openEngine['conn'];
+        
+        // Initialize our statement creator.
+        $addStmt = $dbEngine->stmt_init();
         
         
-        $addStmt = $this->mysqlDbConn->prepare("CALL addPad(?, ?, ?)");
+        $addStmt = $dbEngine->prepare("CALL addPad(?, ?, ?)");
         $addStmt->bind_param('sib', $escHash, $t_expire, $escData);
         
         // Escape strings...
-        $escHash = $this->mysqlDbConn->real_escape_string($t_hash);
-        $escData = $this->mysqlDbConn->real_escape_string($t_data);
+        $escHash = $dbEngine->real_escape_string($t_hash);
+        $escData = $dbEngine->real_escape_string($t_data);
         
         // Try to execute
         if($addStmt->execute()) {
@@ -100,7 +105,7 @@ class destructoPadData {
         }
         else {
             $retVal['success'] = FALSE;
-            $retVal['error'] = "MySQL error on adding pad: " . $this->mysqlDbConn->errno . " - " . $this->mysqlDbConn->error;
+            $retVal['error'] = "MySQL error on adding pad: " . $dbEngine->errno . " - " . $dbEngine->error;
         }
         
         // Return results.
