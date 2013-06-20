@@ -207,7 +207,6 @@ class destructoPadData {
             // If I'm in MySQL mode
             case self::DP_MODE_MYSQL:
                 // Get the data using MySQL
-                echo "DEBUG: In MySQL mode.\n";
                 $retVal = $this->mysqlGetPad($t_messageID);
                 break;
             default:
