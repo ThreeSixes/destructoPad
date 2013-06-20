@@ -91,7 +91,7 @@ class destructoPadData {
         // Initialize our statement creator.
         $addStmt = $dbEngine->stmt_init();
         
-        
+        // Prepare our sproc call and bind variables.
         $addStmt = $dbEngine->prepare("CALL addPad(?, ?, ?)");
         $addStmt->bind_param('sib', $escHash, $t_expire, $escData);
         
@@ -107,6 +107,9 @@ class destructoPadData {
             $retVal['success'] = FALSE;
             $retVal['error'] = "MySQL error on adding pad: " . $dbEngine->errno . " - " . $dbEngine->error;
         }
+        
+        // Close DB connection properly.
+        $dbEngine->close();
         
         // Return results.
         return $retVal;
