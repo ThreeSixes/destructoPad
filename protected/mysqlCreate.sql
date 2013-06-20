@@ -9,7 +9,7 @@ CREATE TABLE padEntry (
     PRIMARY KEY( padID )
 );
 
-GRANT SELECT,INSERT ON padEntry TO 'padProc'@'localhost' IDENTIFIED BY 'Blah@ASD4q5FA4asb';
+GRANT SELECT,INSERT,DELETE ON padEntry TO 'padProc'@'localhost' IDENTIFIED BY 'Blah@ASD4q5FA4asb';
 GRANT UPDATE,DELETE ON padEntry TO 'padUpdateProc'@'localhost' IDENTIFIED BY 'WhasdlktjaGarbl!';
 
 DELIMITER ?
