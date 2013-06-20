@@ -23,7 +23,7 @@
     // This is the maximum amount of text in bytes we want.
     // IMPORTANT: Adjust this as you see fit. This max size will also include encryption overhead, and
     // the user's storage space per pad will be adjusted to reflect that limitation.
-    private $textStorageSize = 65000; // Governed by operator preference and data layer limitations.
+    private $textStorageSize = 65535; // Governed by operator preference and data layer limitations.
     
     /* Text output configuration */
     
