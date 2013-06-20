@@ -67,7 +67,7 @@ class destructoPadData {
         // Close the connection
         $this->mysqlDbConn->close();
         if ($this->mysqlDbConn->errno) {
-            $retVal['error'] = "MySQL error on closing connection: " . $this->mysqlDbConn->connect_error . " - " . $this->mysqlDbConn->connect_error;
+            $retVal['error'] = "MySQL error on closing connection: " . $this->mysqlDbConn->errno . " - " . $this->mysqlDbConn->connect_error;
         }
         else {
             $retVal['success'] = TRUE;
@@ -78,12 +78,30 @@ class destructoPadData {
     }
     
     // Use MySQL to add a pad.
-    private function mysqlAddPad() {
+    private function mysqlAddPad($t_hash, $t_expire, $t_data) {
         // Set up our return values.
         $retVal['success'] = FALSE;
         $retVal['error'] = NULL;
         
+        // Build our statement "engine"...
+        $addStmt = $this->mysqlDbConn->stmt_init();
         
+        
+        $addStmt = $this->mysqlDbConn->prepare("CALL addPad(?, ?, ?)");
+        $addStmt->bind_param('sib', $escHash, $t_expire, $escData);
+        
+        // Escape strings...
+        $escHash = $this->mysqlDbConn->real_escape_string($t_hash);
+        $escData = $this->mysqlDbConn->real_escape_string($t_data);
+        
+        // Try to execute
+        if($addStmt->execute()) {
+            $retVal['success'] = TRUE;
+        }
+        else {
+            $retVal['success'] = FALSE;
+            $retVal['error'] = "MySQL error on adding pad: " . $this->mysqlDbConn->errno . " - " . $this->mysqlDbConn->error;
+        }
         
         // Return results.
         return $retVal;
