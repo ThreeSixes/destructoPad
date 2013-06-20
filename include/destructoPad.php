@@ -1,12 +1,17 @@
 <?php
-/* DestructoPad class
+/* DestructoPad class - This class contains the workhorse crypto
+ * code, config, etc.
  * By Josh Lucy <josh{at}lucyindustrial_dawt_com>
  */
  
  class destructoPad {
     
+    /******************************
+     * Class-wide config and vars *
+     ******************************/
+    
     // Crypto configuration
-    private $cipher = "rijndael-256"; // Default: AES-256
+    private $cipher = "rijndael-256"; // Default: Rijndael(AES)-256
     private $mode = "cbc"; // Default: CBC
     private $hashAlgo = "sha256"; // Default: SHA-256, choose based on cipher.
     private $ivSize = 0; // This will hold the calculated IV size given a cipher and mode.
