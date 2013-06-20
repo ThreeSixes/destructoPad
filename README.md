@@ -4,10 +4,10 @@ destructoPad
 destructoPad is an open-source LAMP project used to create read-and-burn style encrypted messages with an expiration timer on each message. It's designed to operate inside the TOR network to prevent bad actors or (mis)users of the service from knowing where the sever is hosted, and to prevent server operators from knowing where the messages were written or read. This project was written for use on a Rapberry PI, and supports any encryption types supported in your mcrypt install supports. The default config ships with AES-256 CBC enabled.
 
 Dependencies for the software include:
- Apache
+ - Apache
   - with mod\_rewrite
- MySQL
- PHP 5 w/ the following:
+ - MySQL
+ - PHP 5 w/ the following:
   - mysqli module
   - mcrypt module
 
