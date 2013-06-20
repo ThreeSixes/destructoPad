@@ -1,8 +1,13 @@
 <?php
 /*
- * DestructoPad - generate pad
+ * DestructoPad - generate pad page
  * This file is designed to be an inline include that encrypts the pad hands it over to the data layer, and then presents the user with the URL.
  * By Josh Lucy <josh{AT}lucyindustrial_dawt_com>
+ *
+ * NOTES:
+ *  - The MySQL scripts to create the database, users, and procs is under ./protected/mysqlCreate.sql. Make sure you change the pws in
+ *    the script and in the data layer code if you're using MySQL.
+ *  - A significant part of this code depends on MOD_REWRITE functioning as designed. See the documentation under ./protected
  */
 
  // Error display code...
@@ -37,6 +42,8 @@
         $addWorked = $dpdl->addPad($dp->createHash($newURL), $expireTime, $encrypted);
         
         // If the pad add worked, then let's give our user the good news and URL.
+        // We don't have the URL enclosed in a link because if the generator of the message
+        // clicks the link it gets nuked as designed.
         if ($addWorked['success'] == TRUE) {
             echo "      <br />\n";
             echo "      <br />\n";
