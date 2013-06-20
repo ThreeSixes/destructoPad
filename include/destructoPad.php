@@ -272,6 +272,13 @@
 	
 	return $retVal;
     }
+    
+    // Generate a random expiration time.
+    public function getPadRandomExprire() {
+	// Generate the expire between min and max for plausible deniability
+	// and return.
+	return mt_rand($this->padExpireMin, $this->padExpireMax);
+    }
 }
 
 ?>
