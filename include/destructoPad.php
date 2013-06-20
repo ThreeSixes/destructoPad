@@ -16,7 +16,9 @@
     /* Text input configuration */
     
     // This is the maximum amount of text in bytes we want.
-    private $textStorageSize = 65000; // Governed by space limitations or data layer limitation.
+    // IMPORTANT: Adjust this as you see fit. This max size will also include encryption overhead, and
+    // the user's storage space per pad will be adjusted to reflect that limitation.
+    private $textStorageSize = 65000; // Governed by operator preference and data layer limitations.
     
     /* Text output configuration */
     
@@ -74,7 +76,7 @@
 	// Generate padding.
 	for($i = 0; $i < $t_paddingSize; $i++)
 	{
-	    $padding .= chr(mt_rand(0,255)); 
+	    $padding .= chr(mt_rand(0, 255)); 
 	}
 	
 	return $padding;
