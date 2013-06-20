@@ -1,7 +1,8 @@
+-- Create and use database
 CREATE DATABASE destructoPad;
-
 USE destructoPad;
 
+-- Create tables.
 CREATE TABLE padEntry (
     padID BINARY(32) NOT NULL,
     padExpire TINYINT NOT NULL,
@@ -9,9 +10,12 @@ CREATE TABLE padEntry (
     PRIMARY KEY( padID )
 );
 
+-- Set up permissions on the padEntry table for each user.
+-- CHANGE BOTH OF THESE PASSWORDS, AND THEN CHANGE THEM IN THE data.php CONFIG!
 GRANT SELECT,INSERT,DELETE ON padEntry TO 'padProc'@'localhost' IDENTIFIED BY 'Blah@ASD4q5FA4asb';
 GRANT UPDATE,DELETE ON padEntry TO 'padUpdateProc'@'localhost' IDENTIFIED BY 'WhasdlktjaGarbl!';
 
+-- Create our sprocs
 DELIMITER ?
 
 CREATE PROCEDURE addPad(IN hash BINARY(32), expire TINYINT(4), padData BLOB)
@@ -33,6 +37,9 @@ END ?
 
 DELIMITER ;
 
+-- Set up necessary execute permissions on sprocs.
+-- expirePad should be called using CRON or AT once an hour through
+-- the expireOnTime.php script.
 GRANT EXECUTE ON PROCEDURE addPad TO 'padProc'@'localhost';
 GRANT EXECUTE ON PROCEDURE getPad TO 'padProc'@'localhost';
 GRANT EXECUTE ON PROCEDURE expirePad TO 'padUpdateProc'@'localhost';
