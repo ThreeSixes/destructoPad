@@ -37,30 +37,31 @@
     
     echo "Got " . strlen($encrypted) . " encrypted bytes... ";
     
-    echo "Calling addPad()... ";
-    
-    // Now create the pad in the data layer
-    $addWorked = $dpdl->addPad($dp->createHash($newURL), $expireTime, $encrypted);
-    
-    echo "Called addPad()... ";
-    
-    if ($addWorked['success'] == FALSE) {
-        echo "addPad() failed:: " . $addWorked['error'] . "... ";
-    }
-    echo "      <br />\n";
-    echo "      <br />\n";
-    echo "      Your link is:\n";
-    echo "      <br />\n";
-    echo "      " . $newURL . "\n";
-    echo "      <br />\n";
-    echo "      Feel free to copy and paste it, but remember once the pad is loaded it will delete itself and will expire if unread in " . $expireTime . " hrs. See below for details.\n";
-    echo "      <br />\n";
-    echo "      <br />\n";
-    
+    echo "Check max padded size...";
     //Make sure our encrypted data doesn't violate the maximum size constraint.
     if (strlen($encrypted) <= $dp->getMaxPadSize()) {
-      // Call our data layer
-      
+          // Call our data layer
+          echo "Calling addPad()... ";
+    
+        // Now create the pad in the data layer
+        $addWorked = $dpdl->addPad($dp->createHash($newURL), $expireTime, $encrypted);
+        echo "Called addPad()... ";
+        
+        // If the pad add worked, then let's give our user the good news and URL.
+        if ($addWorked['success'] == TRUE) {
+            echo "      <br />\n";
+            echo "      <br />\n";
+            echo "      Your link is:\n";
+            echo "      <br />\n";
+            echo "      " . $newURL . "\n";
+            echo "      <br />\n";
+            echo "      Feel free to copy and paste it, but remember once the pad is loaded it will delete itself and will expire if unread in " . $expireTime . " hrs. See below for details.\n";  
+            echo "      <br />\n";
+            echo "      <br />\n";
+        } else {
+            echo "addPad() failed:: " . $addWorked['error'] . "... ";
+        }
+    
     } else {
         echo "      <div class=\"warningText\">\n<span class=\"warningHead\">Unable to create pad</span><br />It's too large for storage.\n</div>\n";
     }
