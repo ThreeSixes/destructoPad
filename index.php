@@ -66,7 +66,7 @@ switch($thisUseCase) {
         require('include/header.php');
         
         // Display a confusing error message.
-        echo "      WTF was that!?";
+        echo "      <div class=\"warningText\">\n<span class=\"warningHead\">Unable figure out what the hell you're doing.</span><br />WTF was that? Try your legit action again, or pick a different sploit.\n</div>\n";
         
         // Get our header...
         require('include/header.php');
