@@ -24,7 +24,7 @@ $thisUseCase = "createPad";
 if (isset($_POST['submit'])) {
     // The form was submitted with a new pad.
     $thisUseCase = "generatePad";
-} elseif ($_GET['targetPad'] != NULL) {
+} elseif (!empty($_GET['targetPad'])) {
     // A user had performed a "get" against us.
     $thisUseCase = "getPad";
 }
