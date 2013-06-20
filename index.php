@@ -21,7 +21,7 @@ $dp = new destructoPad();
 $thisUseCase = "createPad";
 
 // Determine use-case (compose new note, submit new note, view note, display error)
-if ($_POST['submit'] == "Create Pad") {
+if (isset($_POST['submit'])) {
     // The form was submitted with a new pad.
     $thisUseCase = "generatePad";
 } elseif ($_GET['targetPad'] != NULL) {
