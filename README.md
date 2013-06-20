@@ -18,7 +18,8 @@ Security features:
 
 Dependencies for the software include:
  - Apache
-  - with mod\_rewrite
+  - with mod\_rewrite installed
+  - with SSL support
  - MySQL
  - PHP 5 w/ the following:
   - mysqli module
