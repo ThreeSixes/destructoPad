@@ -86,43 +86,81 @@ class destructoPadData {
         
         // Open the database.
         $openEngine = $this->mysqlCreateConn();
-        $dbEngine = $openEngine['conn'];
         
-        // Initialize our statement creator.
-        $addStmt = $dbEngine->stmt_init();
-        
-        // Prepare our sproc call and bind variables.
-        $addStmt = $dbEngine->prepare("CALL addPad(?, ?, ?)");
-        $addStmt->bind_param('sib', $escHash, $t_expire, $escData);
-        
-        // Escape strings...
-        $escHash = $dbEngine->real_escape_string($t_hash);
-        $escData = $dbEngine->real_escape_string($t_data);
-        
-        // Try to execute
-        if($addStmt->execute()) {
-            $retVal['success'] = TRUE;
+        // If the engine opened...
+        if ($openEngine['success'] == TRUE) {
+            // Set our engine object using the returned reference.
+            $dbEngine = $openEngine['conn'];
+            
+            // Initialize our statement creator.
+            $addStmt = $dbEngine->stmt_init();
+            
+            // Prepare our sproc call and bind variables.
+            $addStmt = $dbEngine->prepare("CALL addPad(?, ?, ?)");
+            $addStmt->bind_param('sib', $escHash, $t_expire, $escData);
+            
+            // Escape strings...
+            $escHash = $dbEngine->real_escape_string($t_hash);
+            $escData = $dbEngine->real_escape_string($t_data);
+            
+            // Try to execute the prepared statement.
+            if($addStmt->execute()) {
+                // If it works flag the response.
+                $retVal['success'] = TRUE;
+            }
+            else {
+                // If we have a failure flag the response and set the error.
+                $retVal['success'] = FALSE;
+                $retVal['error'] = "MySQL error on adding pad: " . $dbEngine->errno . " - " . $dbEngine->error;
+            }
+            
+            // Close DB connection properly.
+            $dbEngine->close();
         }
-        else {
-            $retVal['success'] = FALSE;
-            $retVal['error'] = "MySQL error on adding pad: " . $dbEngine->errno . " - " . $dbEngine->error;
-        }
-        
-        // Close DB connection properly.
-        $dbEngine->close();
         
         // Return results.
         return $retVal;
     }
     
     // Use MySQL to get a pad.
-    private function mysqlGetPad() {
+    private function mysqlGetPad($t_hash) {
         // Set up our return values.
         $retVal['encryptedBlock'] = NULL;
         $retVal['success'] = FALSE;
         $retVal['error'] = NULL;
         
+        // Open the database.
+        $openEngine = $this->mysqlCreateConn();
         
+        // If the engine opened...
+        if ($openEngine['success'] == TRUE) {
+            // Set our engine object using the returned reference.
+            $dbEngine = $openEngine['conn'];
+            
+            // Initialize our statement creator.
+            $getStmt = $dbEngine->stmt_init();
+            
+            // Prepare our sproc call and bind variables.
+            $getStmt = $dbEngine->prepare("CALL getPad(?)");
+            $getStmt->bind_param('s', $escHash);
+            
+            // Escape strings...
+            $escHash = $dbEngine->real_escape_string($t_hash);
+            
+            // Try to execute the prepared statement.
+            if($getStmt->execute()) {
+                // If it works flag the response.
+                $retVal['success'] = TRUE;
+            }
+            else {
+                // If we have a failure flag the response and set the error.
+                $retVal['success'] = FALSE;
+                $retVal['error'] = "MySQL error on getting pad: " . $dbEngine->errno . " - " . $dbEngine->error;
+            }
+            
+            // Close DB connection properly.
+            $dbEngine->close();
+        }
         
         // Return results
         return $retVal;
