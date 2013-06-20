@@ -9,11 +9,8 @@ CREATE TABLE padEntry (
     PRIMARY KEY( padID )
 );
 
-CREATE USER 'padProc'@'localhost' IDENTIFIED BY 'Blah@ASD4q5FA4asb';
-GRANT SELECT,INSERT ON destructoPad.padEntry TO 'padProc'@'localhost';
-
-CREATE USER 'padUpdateProc'@'localhost' IDENTIFIED BY 'WhasdlktjaGarbl!';
-GRANT UPDATE,DELETE ON destructoPad.padEntry TO 'padUpdateProc'@'localhost';
+GRANT SELECT,INSERT ON destructoPad.padEntry TO 'padProc'@'localhost' IDENTIFIED BY 'Blah@ASD4q5FA4asb';
+GRANT UPDATE,DELETE ON destructoPad.padEntry TO 'padUpdateProc'@'localhost' IDENTIFIED BY 'WhasdlktjaGarbl!';
 
 DELIMITER ?
 CREATE PROCEDURE addPad(IN hash BINARY(32), expire TINYINT(4), padData BLOB)
@@ -21,20 +18,20 @@ BEGIN
     INSERT INTO padEntry VALUES (hash, expire, padData);
 END ?
 
-DELIMITER ?
 CREATE PROCEDURE getPad(IN hash BINARY(32), OUT padDataOut BLOB)
 BEGIN
     SELECT padData INTO padDataOut FROM padEntry WHERE padID = hash LIMIT 1;
     DELETE FROM padEntry WHERE padID = hash;
 END ?
 
-DELIMITER ?
 CREATE PROCEDURE expirePad()
 BEGIN
     DELETE FROM padEntry WHERE padExpire <= 0;
     UPDATE padEntry SET padExpire = padExpire - 1;
 END ?
 
--- These don't work for some reason...
---GRANT EXECUTE ON addPad TO 'padProc'@'localhost';
---GRANT EXECUTE ON expirePad TO 'padUpdateProc'@'localhost';
+DELIMITER ;
+
+GRANT EXECUTE ON PROCEDURE destructoPad.addPad TO 'padProc'@'localhost';
+GRANT EXECUTE ON PROCEDURE destructoPad.getPad TO 'padProc'@'localhost';
+GRANT EXECUTE ON PROCEDURE destructoPad.expirePad TO 'padUpdateProc'@'localhost';
