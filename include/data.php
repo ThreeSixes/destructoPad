@@ -150,18 +150,16 @@ class destructoPadData {
                 
                 // Bind the output to encryptedBlock
                 $getStmt->bind_result($retVal['encryptedBlock']);
-                echo "Fetch ";
+                
                 // Fetch the results.
                 if($getStmt->fetch()) {
-                    echo "worked.";
+                    $retVal['success'] = TRUE;
+                    echo "Encrypted block returned: ";
+                    echo bin2hex($retVal['encryptedBlock']);
                 }
                 else {
-                    echo "failed.";
+                    $retVal['error'] = "MySQL error on getting pad: " . $getStmt->errno . " - " . $getStmt->error;
                 }
-                
-                // We should do a check before here...
-                $retVal['success'] = TRUE;
-                echo bin2hex($retVal['encryptedBlock']);
             }
             else {
                 // If we have a failure flag the response and set the error.
