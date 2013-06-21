@@ -1,0 +1,5 @@
+# mod_rewrite rules to create our virtual <someURL>/get/<someGUID>
+# rules to go to <someURL>/index.php?getTarget=<someGUID>.
+RewriteEngine On
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule /get/.* /index.php?getTarget=$1 [L,QSA]
