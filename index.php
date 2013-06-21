@@ -1,6 +1,6 @@
 <?php
 /*
- * Web UI code for DestructoPad.
+ * Web UI and use-case determining code for DestructoPad.
  * by Josh Lucy <josh{AT}lucyindustrial_dawt_com>
  */
 
