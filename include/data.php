@@ -148,13 +148,11 @@ class destructoPadData {
                 // Execute query...
                 $getStmt->execute();
                 
-                //
-
+                // Bind the output to encryptedBlock
+                $getStmt->bind_result($retVal['encryptedBlock']);
                 
-                
-                ////////////////////////////////////////
-                // FIGURE OUT WHAT IS HAPPENING HERE!!!!
-                //
+                // Fetch the results.
+                $getStmt->fetch();
                 
                 // We should do a check before here...
                 $retVal['success'] = TRUE;
@@ -164,9 +162,6 @@ class destructoPadData {
                 $retVal['success'] = FALSE;
                 $retVal['error'] = "MySQL error on getting pad: " . $dbEngine->errno . " - " . $dbEngine->error;
             }
-            
-            echo "Client: " . $dbEngine->client_version . "\n<br />";
-            echo "Server: " . $dbEngine->server_version . "\n<br />";
             
             // Close our statement.
             $getStmt->close();
