@@ -36,12 +36,12 @@
     
     
     // Did we get a pad?
-    if($gotPad['success'] === TRUE) {
+    if($gotPad['success'] == TRUE) {
         // If the pad exists decrypt it.
         $decryptedPad = $dp->getDecrypted($keyA, $keyB, $gotPad['encryptedBlock']);
         
         // Did the resultant pad pass HMAC validation?
-        if($decryptedPad['hmacGood'] === TRUE) {
+        if($decryptedPad['hmacGood'] == TRUE) {
             // Get our MIME type and charset settings.
             $mimeHeader = $dp->getMimeAndCharset();
             
