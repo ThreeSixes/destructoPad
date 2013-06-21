@@ -110,6 +110,9 @@ class destructoPadData {
                 $retVal['error'] = "MySQL error on adding pad: " . $dbEngine->errno . " - " . $dbEngine->error;
             }
             
+            // Close our "add statement" down.
+            $addStmt->close();
+            
             // Close DB connection properly.
             $dbEngine->close();
         }
