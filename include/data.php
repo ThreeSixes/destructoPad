@@ -140,10 +140,10 @@ class destructoPadData {
             $getStmt = $dbEngine->stmt_init();
             
             // Prepare our sproc call and bind variables.
-            if ($getStmt = $dbEngine->prepare("CALL getPad(?)")) {
+            if ($getStmt = $dbEngine->prepare("CALL getPad(?,?)")) {
                 
                 // Bind parameters.
-                $getStmt->bind_param('s', $escHash);
+                $getStmt->bind_param('sb', $escHash, $retVal['encryptedBlock']);
                 
                 // Execute query...
                 if ($getStmt->execute())
@@ -158,10 +158,12 @@ class destructoPadData {
                         echo bin2hex($retVal['encryptedBlock']);
                     }
                     else {
+                        // Set error text.
                         $retVal['error'] = "MySQL error on fetching pad: " . $getStmt->errno . " - " . $getStmt->error;
                     }
                 }
                 else {
+                    // Set error text.
                     $retVal['error'] = "MySQL error on executing get pad: " . $getStmt->errno . " - " . $getStmt->error;
                 }
             }
