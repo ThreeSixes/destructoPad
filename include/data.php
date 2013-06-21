@@ -153,10 +153,15 @@ class destructoPadData {
                     
                     // Fetch the results.
                     if($getStmt->fetch()) {
-                        $retVal['success'] = TRUE;
-                        echo "Encrypted block returned: ";
-                        echo bin2hex($retVal['encryptedBlock']);
-                        echo "<br /><br />";
+                        if($getStmt->num_rows == 1) {
+                            $retVal['success'] = TRUE;
+                            echo "Encrypted block returned: ";
+                            echo bin2hex($retVal['encryptedBlock']);
+                            echo "<br /><br />";
+                        }
+                        else {
+                            $retVal['error'] = "No matching pad found.";
+                        }
                     }
                     else {
                         // Set error text.
