@@ -146,19 +146,23 @@ class destructoPadData {
                 $getStmt->bind_param('s', $escHash);
                 
                 // Execute query...
-                $getStmt->execute();
-                
-                // Bind the output to encryptedBlock
-                $getStmt->bind_result($retVal['encryptedBlock']);
-                
-                // Fetch the results.
-                if($getStmt->fetch()) {
-                    $retVal['success'] = TRUE;
-                    echo "Encrypted block returned: ";
-                    echo bin2hex($retVal['encryptedBlock']);
+                if ($getStmt->execute())
+                {
+                    // Bind the output to encryptedBlock
+                    $getStmt->bind_result($retVal['encryptedBlock']);
+                    
+                    // Fetch the results.
+                    if($getStmt->fetch()) {
+                        $retVal['success'] = TRUE;
+                        echo "Encrypted block returned: ";
+                        echo bin2hex($retVal['encryptedBlock']);
+                    }
+                    else {
+                        $retVal['error'] = "MySQL error on fetching pad: " . $getStmt->errno . " - " . $getStmt->error;
+                    }
                 }
                 else {
-                    $retVal['error'] = "MySQL error on getting pad: " . $getStmt->errno . " - " . $getStmt->error;
+                    $retVal['error'] = "MySQL error on executing get pad: " . $getStmt->errno . " - " . $getStmt->error;
                 }
             }
             else {
