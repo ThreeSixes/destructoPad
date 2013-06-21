@@ -146,13 +146,11 @@ class destructoPadData {
                 $getStmt->bind_param('s', $escHash);
                 
                 // Execute query...
-                if ($getStmt->execute())
-                {
-                    echo "DEBUG: executed";
-                }
-                else {
-                    echo "DEBUG: not executed.";
-                }
+                $getStmt->execute();
+                
+                //
+
+                
                 
                 ////////////////////////////////////////
                 // FIGURE OUT WHAT IS HAPPENING HERE!!!!
@@ -166,6 +164,9 @@ class destructoPadData {
                 $retVal['success'] = FALSE;
                 $retVal['error'] = "MySQL error on getting pad: " . $dbEngine->errno . " - " . $dbEngine->error;
             }
+            
+            echo "Client: " . $dbEngine->client_version . "\n<br />";
+            echo "Server: " . $dbEngine->server_version . "\n<br />";
             
             // Close our statement.
             $getStmt->close();
