@@ -193,6 +193,7 @@
 	// Set up our return array.
         $retVal['plainText'] = $plainText;  
 	$retVal['hmacGood'] = $hmacGood;
+	$retVal['calcHMAC'] = $calculatedHmacHash;
         
 	// Return the array.
 	return $retVal;
