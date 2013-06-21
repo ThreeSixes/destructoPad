@@ -51,6 +51,8 @@
             echo "      <br />\n";
             echo "      " . $newURL . "\n";
             echo "      <br />\n";
+            echo "      HMAC for end-to-end verification: " . bin2hex("HOLD"); // Fix me!
+            echo "      <br />\n";
             echo "      Feel free to copy and paste it, but remember once the pad is loaded it will delete itself and will expire if unread in " . $expireTime . " hrs. See below for details.\n";  
             echo "      <br />\n";
             echo "      <br />\n";
