@@ -52,7 +52,7 @@
             
             // Present the decrypted pad to the user.
             echo $decryptedPad['plainText'];
-            echo "\n\nHMAC: " . bin2hex($decryptedPad['calcHMAC']);
+            echo "\n\nHMAC for verification: " . bin2hex($decryptedPad['calcHMAC']);
             
         }
         else {
