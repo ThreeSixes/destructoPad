@@ -156,6 +156,7 @@ class destructoPadData {
                 
                 // We should do a check before here...
                 $retVal['success'] = TRUE;
+                echo bin2hex($retVal['encryptedBlock']);
             }
             else {
                 // If we have a failure flag the response and set the error.
