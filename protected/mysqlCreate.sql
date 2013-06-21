@@ -43,3 +43,5 @@ DELIMITER ;
 GRANT EXECUTE ON PROCEDURE addPad TO 'padProc'@'localhost';
 GRANT EXECUTE ON PROCEDURE getPad TO 'padProc'@'localhost';
 GRANT EXECUTE ON PROCEDURE expirePad TO 'padUpdateProc'@'localhost';
+
+FLUSH PRIVILEGES;
