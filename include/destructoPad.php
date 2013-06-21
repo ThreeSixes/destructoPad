@@ -115,6 +115,10 @@
     
     // Encrypt the message
     private function encryptData($t_data, $t_finalKey) {
+	// Set up return value...
+	$retVal['encryptedBlock'] = NULL;
+	$retVal['HMAC'] = NULL;
+	
         // Generate our IV, sizing it correctly based on cipher and mode.
         $iv = mcrypt_create_iv($this->ivSize, MCRYPT_RAND);
         
@@ -134,8 +138,12 @@
 	// Calculate the HMAC of the message block.
 	$messageBlockHmac = $this->getHmac($messageBlock, $t_finalKey);
         
-        // Return binary encrypted data including IV, padding size, and the HMAC Hash.
-        return $iv . chr($paddingSize) . $encryptedBlock . $messageBlockHmac;
+	// Set return binary encrypted data including IV, padding size, and the HMAC Hash.
+	$retVal['encryptedBlock'] = $iv . chr($paddingSize) . $encryptedBlock . $messageBlockHmac;
+	$retVal['HMAC'] = $messageBlockHmac;
+	
+	// Now return encrypted data and HMAC.
+        return $retVal;
     }
     
     // Decrypt the message.
