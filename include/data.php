@@ -97,11 +97,7 @@ class destructoPadData {
             
             // Prepare our sproc call and bind variables.
             $addStmt = $dbEngine->prepare("CALL addPad(?, ?, ?)");
-            $addStmt->bind_param('sib', $escHash, $t_expire, $escData);
-            
-            // Escape strings...
-            $escHash = $dbEngine->real_escape_string($t_hash);
-            $escData = $dbEngine->real_escape_string($t_data);
+            $addStmt->bind_param('sib', $t_hash, $t_expire, $t_Data);
             
             // Try to execute the prepared statement.
             if($addStmt->execute()) {
@@ -133,7 +129,7 @@ class destructoPadData {
         $openEngine = $this->mysqlCreateConn();
         
         // If the engine opened...
-        if ($openEngine['success'] == TRUE) {
+        if ($openEngine['success'] === TRUE) {
             // Set our engine object using the returned reference.
             $dbEngine = $openEngine['conn'];
             
@@ -141,15 +137,25 @@ class destructoPadData {
             $getStmt = $dbEngine->stmt_init();
             
             // Prepare our sproc call and bind variables.
-            $getStmt = $dbEngine->prepare("CALL getPad(?)");
-            $getStmt->bind_param('s', $escHash);
-            
-            // Escape strings...
-            $escHash = $dbEngine->real_escape_string($t_hash);
-            
-            // Try to execute the prepared statement.
-            if($getStmt->execute()) {
-                // If it works flag the response.
+            if ($getStmt = $dbEngine->prepare("CALL getPad(?)")) {
+                
+                // Bind parameters.
+                $getStmt->bind_param('s', $escHash);
+                
+                // Execute query...
+                if ($getStmt->execute())
+                {
+                    echo "DEBUG: executed";
+                }
+                else {
+                    echo "DEBUG: not executed.";
+                }
+                
+                ////////////////////////////////////////
+                // FIGURE OUT WHAT IS HAPPENING HERE!!!!
+                //
+                
+                // We should do a check before here...
                 $retVal['success'] = TRUE;
             }
             else {
@@ -157,6 +163,9 @@ class destructoPadData {
                 $retVal['success'] = FALSE;
                 $retVal['error'] = "MySQL error on getting pad: " . $dbEngine->errno . " - " . $dbEngine->error;
             }
+            
+            // Close our statement.
+            $getStmt->close();
             
             // Close DB connection properly.
             $dbEngine->close();
