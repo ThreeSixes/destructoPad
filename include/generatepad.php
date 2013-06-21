@@ -37,9 +37,9 @@
     $encrypted = $dp->getEncrypted($newGuid, $newURL, $padData);
     
     //Make sure our encrypted data doesn't violate the maximum size constraint.
-    if (strlen($encrypted) <= $dp->getMaxPadSize()) {
+    if (strlen($encrypted['encryptedBlock']) <= $dp->getMaxPadSize()) {
         // Now create the pad in the data layer
-        $addWorked = $dpdl->addPad($dp->createHash($newURL), $expireTime, $encrypted);
+        $addWorked = $dpdl->addPad($dp->createHash($newURL), $expireTime, $encrypted['encryptedBlock']);
         
         // If the pad add worked, then let's give our user the good news and URL.
         // We don't have the URL enclosed in a link because if the generator of the message
@@ -51,7 +51,7 @@
             echo "      <br />\n";
             echo "      " . $newURL . "\n";
             echo "      <br />\n";
-            echo "      HMAC for end-to-end verification: " . bin2hex("HOLD"); // Fix me!
+            echo "      HMAC for end-to-end verification: " . bin2hex($encrypted['HMAC']);
             echo "      <br />\n";
             echo "      Feel free to copy and paste it, but remember once the pad is loaded it will delete itself and will expire if unread in " . $expireTime . " hrs. See below for details.\n";  
             echo "      <br />\n";
