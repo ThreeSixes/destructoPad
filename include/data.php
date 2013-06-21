@@ -143,7 +143,7 @@ class destructoPadData {
             if ($getStmt = $dbEngine->prepare("CALL getPad(?,?)")) {
                 
                 // Bind parameters.
-                $getStmt->bind_param('sb', $escHash, $retVal['encryptedBlock']);
+                $getStmt->bind_param('sb', $escHash, $windAndDust);
                 
                 // Execute query...
                 if ($getStmt->execute())
