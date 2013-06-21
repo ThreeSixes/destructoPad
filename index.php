@@ -4,6 +4,11 @@
  * by Josh Lucy <josh{AT}lucyindustrial_dawt_com>
  */
 
+ // Error display code...
+ ini_set('display_errors', 0); 
+ error_reporting(E_ALL);
+
+ 
 // Require the destructoPad library...
 require('include/destructoPad.php');
 // Create our destructoPad object
@@ -18,6 +23,7 @@ if (isset($_POST['submit'])) {
     $thisUseCase = "generatePad";
 } elseif (!empty($_GET['targetPad'])) {
     // A user had performed a "get" against us.
+    
     $thisUseCase = "getPad";
 }
 
