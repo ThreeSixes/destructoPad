@@ -28,13 +28,14 @@
     $newGuid = $dp->createGUID();
     
     // Generate our URL with our current request and the GUID
-    $newURL = "http://" . $_SERVER["SERVER_NAME"] . ":" . $_SERVER["SERVER_PORT"] . $_SERVER["REQUEST_URI"] . "get/" . $newGuid;
+    $newURL = "http://" . $_SERVER["SERVER_NAME"] . ":" . $_SERVER["SERVER_PORT"] . $_SERVER["REQUEST_URI"] . "?targetPad=" . $newGuid;
+    $userURL = "http://" . $_SERVER["SERVER_NAME"] . $_SERVER["REQUEST_URI"] . "?targetPad=" . $newGuid;
     
     // Come up with our expiration time...
     $expireTime = $dp->getPadRandomExprire();
     
     // Generate our encrypted text...
-    $encrypted = $dp->getEncrypted($newGuid, $newURL, $padData);
+    $encrypted = $dp->getEncrypted($newURL, $newGuid, $padData);
     
     //Make sure our encrypted data doesn't violate the maximum size constraint.
     if (strlen($encrypted['encryptedBlock']) <= $dp->getMaxPadSize()) {
@@ -49,7 +50,7 @@
             echo "      <br />\n";
             echo "      Your link is:\n";
             echo "      <br />\n";
-            echo "      " . $newURL . "\n";
+            echo "      " . $userURL . "\n";
             echo "      <br />\n";
             echo "      HMAC for end-to-end verification: " . bin2hex($encrypted['HMAC']);
             echo "      <br />\n";
