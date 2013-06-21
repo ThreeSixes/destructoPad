@@ -134,7 +134,7 @@
 	// Calculate the HMAC of the message block.
 	$messageBlockHmac = $this->getHmac($messageBlock, $t_finalKey);
         
-        // Return binary encrypted data including IV, padding size, and the HMAC Hash.    
+        // Return binary encrypted data including IV, padding size, and the HMAC Hash.
         return $iv . chr($paddingSize) . $encryptedBlock . $messageBlockHmac;
     }
     
@@ -286,6 +286,15 @@
 	// Generate the expire between min and max for plausible deniability
 	// and return.
 	return mt_rand($this->padExpireMin, $this->padExpireMax);
+    }
+    
+    // Return the pad display page's target MIME type and encoding.
+    public function getMimeAndCharset()
+    {
+	// Get and and return.
+	$retVal['mime'] = $this->textOutMime;
+	$retVal['charset'] = $this->textOutCharset;
+	return $retVal;
     }
 }
 
