@@ -156,6 +156,7 @@ class destructoPadData {
                         $retVal['success'] = TRUE;
                         echo "Encrypted block returned: ";
                         echo bin2hex($retVal['encryptedBlock']);
+                        echo "<br /><br />";
                     }
                     else {
                         // Set error text.
