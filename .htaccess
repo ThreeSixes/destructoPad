@@ -1,4 +1,0 @@
-# mod_rewrite rules to create our virtual <someURL>/get/<someGUID>
-# rules to go to <someURL>/index.php?getTarget=<someGUID>.
-RewriteEngine On
-RedirectMatch ^/destructoPad/get/(.+) ./index.php?getTarget=$1
