@@ -4,6 +4,6 @@
 These notes or "pads" are stored on the server using encryption (<?php echo $dp->getEncryptionAlgo(); ?>). As soon as you create the pad you'll be given a URL
 which you can give to someone to read. As soon as they open the pad it is deleted from the server, and pads
 automatically expire between <?php $exprTime = $dp->getPadExpireRange(); echo $exprTime['min'] . " and " . $exprTime['max'];  ?> hours if they're not read.
-All pads are automatically encoded as UTF-8, and are returned with a text/plain MIME type. This project's source code can be found at <a target="_external" href="https://github.com/LucyIndustrial/destructoPad">https://github.com/LucyIndustrial/destructoPad</a></span>
+All pads are automatically encoded as UTF-8, and are returned with a text/plain MIME type. Source code can be found at <a target="_external" href="https://github.com/LucyIndustrial/destructoPad">https://github.com/LucyIndustrial/destructoPad</a></span>
     </body>
 </html>
