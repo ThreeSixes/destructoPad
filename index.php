@@ -1,15 +1,7 @@
 <?php
 /*
- * Web UI code for destructoPad.
+ * Web UI code for DestructoPad.
  * by Josh Lucy <josh{AT}lucyindustrial_dawt_com>
- *
- * TODO:
- *  - Use-case code for UI.
- *  - Create forms for inputting data
- *  - Input checking on inputs
- *  - Include the needed classes depending on use-case.
- *  - Figure out mod_rewrite stuff for pointing at the read use case.
- *  - CSS
  */
 
 // Require the destructoPad library...
@@ -46,7 +38,8 @@ switch($thisUseCase) {
         
         break;
     case "getPad":
-        // This is where we return the pad as plain text.
+        // Get the pad.
+        require('include/getpad.php');
         
         break;
     case "createPad":
