@@ -150,9 +150,14 @@ class destructoPadData {
                 
                 // Bind the output to encryptedBlock
                 $getStmt->bind_result($retVal['encryptedBlock']);
-                
+                echo "Fetch ";
                 // Fetch the results.
-                $getStmt->fetch();
+                if($getStmt->fetch()) {
+                    echo "worked.";
+                }
+                else {
+                    echo "failed.";
+                }
                 
                 // We should do a check before here...
                 $retVal['success'] = TRUE;
