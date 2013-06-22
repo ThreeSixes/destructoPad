@@ -79,7 +79,7 @@ class destructoPadData {
     }
     
     // Use MySQL to add a pad.
-private function mysqlAddPad($t_hash, $t_expire, $t_data) {
+	private function mysqlAddPad($t_hash, $t_expire, $t_data) {
         // Set up our return values.
         $retVal['success'] = FALSE;
         $retVal['error'] = NULL;
@@ -158,6 +158,34 @@ private function mysqlAddPad($t_hash, $t_expire, $t_data) {
 				// Execute query...
                 $getStmt->execute();
                 
+				/************ 
+				-                // Execute query...
+-                if ($getStmt->execute())
+-                {
+-                    // Bind the output to encryptedBlock
+-                    $getStmt->bind_result($retVal['encryptedBlock']);
+-                    
+-                    // Fetch the results.
+-                    if($getStmt->fetch()) {
+-                        // Did we get one row back.
+-                        if($getStmt->num_rows == 1) {
+-                            // If and only if we have a row declare success.
+-                            $retVal['success'] = TRUE;
+-                        }
+-                        else {
+-                            $retVal['error'] = "No matching pad found.";
+-                        }
+-                    }
+-                    else {
+-                        // Set error text.
+-                        $retVal['error'] = "MySQL error on fetching pad: " . $getStmt->errno . " - " . $getStmt->error;
+-                    }
+-                }
+-                else {
+-                    // Set error text.
+-                    $retVal['error'] = "MySQL error on executing get pad: " . $getStmt->errno . " - " . $getStmt->error;
+-                } 
+				********************/
                 // Bind the output to encryptedBlock
                 $getStmt->bind_result($retVal['encryptedBlock']);
 				
@@ -216,7 +244,7 @@ private function mysqlAddPad($t_hash, $t_expire, $t_data) {
         $retVal['error'] = NULL;
         
 		$pid = $t_messageID;
-		
+
         // Determine what mode I'm in.
         switch($this->dlMode) {
             // If I'm in MySQL mode
