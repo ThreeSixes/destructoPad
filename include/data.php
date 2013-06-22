@@ -109,7 +109,7 @@ private function mysqlAddPad($t_hash, $t_expire, $t_data) {
             
             // Prepare our sproc call and bind variables.
             $addStmt = $dbEngine->prepare("CALL addPad(?, ?, ?)");
-            $addStmt->bind_param('sib', $t_hash, $t_expire, $t_Data);
+            $addStmt->bind_param('sib', $input[0], $input[1], $input[2]);
             
             // Try to execute the prepared statement.
             if($addStmt->execute()) {
