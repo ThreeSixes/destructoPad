@@ -97,7 +97,7 @@ class destructoPadData {
             
             // Prepare our sproc call and bind variables.
             $addStmt = $dbEngine->prepare("CALL addPad(?, ?, ?)");
-            $addStmt->bind_param('sib', $t_hash, $t_expire, $t_Data);
+            $addStmt->bind_param('sis', $t_hash, $t_expire, $t_data);
             
             // Try to execute the prepared statement.
             if($addStmt->execute()) {
