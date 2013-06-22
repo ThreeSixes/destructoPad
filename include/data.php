@@ -79,13 +79,25 @@ class destructoPadData {
     }
     
     // Use MySQL to add a pad.
-    private function mysqlAddPad($t_hash, $t_expire, $t_data) {
+private function mysqlAddPad($t_hash, $t_expire, $t_data) {
         // Set up our return values.
         $retVal['success'] = FALSE;
         $retVal['error'] = NULL;
         
-        // Open the database.
-        $openEngine = $this->mysqlCreateConn();
+		// Prepare input
+		$input = array($t_hash, $t_expire, $t_data);
+		
+		// Error check
+		if(empty($input[0])) { 
+			$retVal['error'] = "Hash is empty."; 
+		} elseif(empty($input[1])) {
+			$retVal['error'] = "Expired.";
+		} elseif(empty($input[2])) {
+			$retVal['error'] = "Data is empty.";
+		} else {
+			// Open the database.
+			$openEngine = $this->mysqlCreateConn();
+		}
         
         // If the engine opened...
         if ($openEngine['success'] == TRUE) {
