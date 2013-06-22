@@ -39,7 +39,17 @@ body {
     font-size: small;
 }
 
-a:link a:visited a:active {
+a:link {
+    color: #cc9900;
+    text-decoration: none;
+}
+
+a:visited {
+    color: #cc9900;
+    text-decoration: none;
+}
+
+a:active {
     color: #cc9900;
     text-decoration: none;
 }
