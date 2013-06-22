@@ -38,3 +38,13 @@ body {
     font-weight: bold;
     font-size: small;
 }
+
+a:link a:visited a:active {
+    color: #cc9900;
+    text-decoration: none;
+}
+
+a:hover {
+    color: #cc9900;
+    text-decoration: underline;
+}
