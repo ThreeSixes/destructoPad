@@ -29,7 +29,7 @@
     
     // IF this has been satisfied let's load the data layer...
     require("include/data.php");
-    $dpdl = new destructoPadData(destructoPadData::DP_MODE_MYSQL);
+    $dpdl = new destructoPadData(destructoPadData::DP_MODE_MYSQL); //ERROR HERE
     
     // Look up our pad...
     $gotPad = $dpdl->getPad($dp->createHash($keyA));
