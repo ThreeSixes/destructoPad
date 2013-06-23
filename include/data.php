@@ -109,10 +109,7 @@ class destructoPadData {
             
             // Prepare our sproc call and bind variables.
             $addStmt = $dbEngine->prepare("CALL addPad(?, ?, ?)");
-<<<<<<< HEAD
-=======
             $addStmt->bind_param('sis', $input[0], $input[1], $input[2]);
->>>>>>> Danny
             
             // Try to execute the prepared statement.
             if($addStmt->execute()) {
@@ -156,51 +153,49 @@ class destructoPadData {
                 
                 // Bind parameters.
                 $getStmt->bind_param('sb', $escHash, $t_hash);
-				
-				// Execute query...
+    		
+                // Execute query...
                 $getStmt->execute();
                 
-				/************ 
-				-                // Execute query...
--                if ($getStmt->execute())
--                {
--                    // Bind the output to encryptedBlock
--                    $getStmt->bind_result($retVal['encryptedBlock']);
--                    
--                    // Fetch the results.
--                    if($getStmt->fetch()) {
--                        // Did we get one row back.
--                        if($getStmt->num_rows == 1) {
--                            // If and only if we have a row declare success.
--                            $retVal['success'] = TRUE;
--                        }
--                        else {
--                            $retVal['error'] = "No matching pad found.";
--                        }
--                    }
--                    else {
--                        // Set error text.
--                        $retVal['error'] = "MySQL error on fetching pad: " . $getStmt->errno . " - " . $getStmt->error;
--                    }
--                }
--                else {
--                    // Set error text.
--                    $retVal['error'] = "MySQL error on executing get pad: " . $getStmt->errno . " - " . $getStmt->error;
--                } 
-				********************/
+		/************ 
+		// Execute query...
+                if ($getStmt->execute())
+                {
+                    // Bind the output to encryptedBlock
+                    $getStmt->bind_result($retVal['encryptedBlock']);
+                    
+                    // Fetch the results.
+                    if($getStmt->fetch()) {
+                        // Did we get one row back.
+                        if($getStmt->num_rows == 1) {
+                            // If and only if we have a row declare success.
+                            $retVal['success'] = TRUE;
+                        }
+                        else {
+                            $retVal['error'] = "No matching pad found.";
+                        }
+                    }
+                    else {
+                        // Set error text.
+                        $retVal['error'] = "MySQL error on fetching pad: " . $getStmt->errno . " - " . $getStmt->error;
+                    }
+                }
+                else {
+                    // Set error text.
+                    $retVal['error'] = "MySQL error on executing get pad: " . $getStmt->errno . " - " . $getStmt->error;
+                } 
+		********************/
                 // Bind the output to encryptedBlock
                 $getStmt->bind_result($retVal['encryptedBlock']);
-				
-				$getStmt->fetch();
-				
-				$getStmt->close();
+		$getStmt->fetch();
+		$getStmt->close();
             }
             else {
                 // If we have a failure flag the response and set the error.
                 $retVal['success'] = FALSE;
                 $retVal['error'] = "MySQL error on getting pad: " . $dbEngine->errno . " - " . $dbEngine->error;
             }
-			
+            
             // Close DB connection properly.
             $dbEngine->close();
         }
@@ -245,8 +240,8 @@ class destructoPadData {
         $retVal['success'] = FALSE;
         $retVal['error'] = NULL;
         
-		$pid = $t_messageID;
-
+	$pid = $t_messageID;
+        
         // Determine what mode I'm in.
         switch($this->dlMode) {
             // If I'm in MySQL mode
