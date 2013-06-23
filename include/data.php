@@ -246,7 +246,7 @@ class destructoPadData {
      ********************/
     
     // Override DB login creds. This is useful for the MySQL pad expiration.
-    public function overrideDBCreds($t_user, $t_pass) {
+    public function overrideMysqlCreds($t_user, $t_pass) {
         // Set up the return value with a default false meaning failure.
         $retVal = FALSE;
         
