@@ -144,20 +144,54 @@ class destructoPadData {
         $retVal['success'] = FALSE;
         $retVal['error'] = NULL;
         
-        // Open the database.
-        $openEngine = $this->mysqlCreateConn();
-        
-        // If the engine opened...
-        if ($openEngine['success'] === TRUE) {
-            // Set our engine object using the returned reference.
-            $dbEngine = $openEngine['conn'];
+        // If we have a hash
+        if (!empty($t_hash)) {
+            // Open the database.
+            $openEngine = $this->mysqlCreateConn();
             
-            // NOW DO THE WORK!
+            // If the engine opened...
+            if ($openEngine['success'] === TRUE) {
+                // Set our engine object using the returned reference.
+                $dbEngine = $openEngine['conn'];
+                
+                // Attempt to build our statement object.
+                if ($getStmt = $dbEngine->prepare("CALL getPad(?);")) {
+                    // 
+                    $getStmt->bind_param('s', $t_hash);
+                    
+                    // ... and go!
+                    $getStmt->execute();
+                    
+                    // Bind the value to the return value.
+                    $getStmt->bind_result($retVal['encryptedBlock']);
+                    
+                    // Fetch the result. We should only have one so don't use a while().
+                    $getStmt->fetch(); 
+                    
+                    // If our encrypted block isn't empty
+                    if(!empty($retVal['encryptedBlock'])) {
+                        // Declare success!
+                        $retVal['success'] = TRUE;
+                    }
+                    
+                    // Close down our statement object.
+                    $getStmt->close();
+                }
+                else {
+                    // Dump the error.
+                    $retVal['error'] = "MySQL error on getting pad during statement prep: " . $getStmt->errno . " - " . $getStmt->error;
+                }
+                
+            }
+            else {
+                // Dump error and bail out!
+                $retVal['error'] = "MySQL error on getting pad during DB engine initialization: " . $dbEngine->errno . " - " . $dbEngine->error;
+            }
             
         }
         else {
-            // Dump error and bail out!
-            $retVal['error'] = "MySQL error on getting pad during DB engine initialization: " . $dbEngine->errno . " - " . $dbEngine->error;
+            // There's no point even creating the object so generate an error.
+            $retVal['error'] = "Error on getting pad: input hash is empty.";
         }
         
         // Return results
