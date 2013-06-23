@@ -8,7 +8,7 @@
  //error_reporting(E_ALL);
 
  // Require our data layer...
- require('../include/data.php');
+ require('include/data.php');
  
  // This is where se set our data layer mode...
  $targetMode = destructoPadData::DP_MODE_MYSQL;
