@@ -51,11 +51,13 @@ class destructoPadData {
         
         // Open a MySQLi connection using our configured parameters
         $retVal['conn'] = new mysqli($this->mysqlDbHost, $this->mysqlDbUser, $this->mysqlDbPass, $this->mysqlDbName);
-        if ($retVal['conn']->errno) {
-            $retVal['error'] = "MySQL error on connection: " . $retVal['conn']->connect_error . " - " . $retVal['conn']->connect_error;
-            print_r($retVal);
+        
+        // If some sort of error just occured...
+        if ($retVal['conn']->connect_errno) {
+            $retVal['error'] = "MySQL error on connection: " . $retVal['conn']->connect_errno . " - " . $retVal['conn']->connect_error;
         }
         else {
+            // If we had no error that means we're looking good.
             $retVal['success'] = TRUE;
         }
         
@@ -251,7 +253,7 @@ class destructoPadData {
         $retVal = FALSE;
         
         // If we provide creds and are in the right mode then execute and call it good.
-        if(!empty($t_user) && !empty($t_pass) && $this->dlMode === $DL_MODE_MYSQL) {
+        if(!empty($t_user) && !empty($t_pass) && $this->dlMode === destructoPadData::DP_MODE_MYSQL) {
             // Assign creds.
             $this->mysqlDbUser = $t_user;
             $this->mysqlDbPass = $t_pass;
