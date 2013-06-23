@@ -16,7 +16,7 @@
  // If you're using MySQL change these to match a user with execute
  // permissions on the expirePad() sproc.
  $mysqlUser = "padUpdateProc";
- $mysqlPass = "Blah@ASD4q5FA4asb";
+ $mysqlPass = "WhasdlktjaGarbl!";
   
  function presentResults($t_result) {
     // Did we have a successful expire?
