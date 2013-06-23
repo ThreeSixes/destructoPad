@@ -9,8 +9,8 @@
  */
 
  // Error display code...
- ini_set('display_errors', 1); 
- error_reporting(E_ALL);
+ //ini_set('display_errors', 1); 
+ //error_reporting(E_ALL);
  
  // Check the size of the post (in a rough fashion) to make sure we can use it.
  if (strlen($_GET['targetPad']) > 0) {
