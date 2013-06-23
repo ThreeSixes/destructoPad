@@ -9,8 +9,8 @@
  */
 
  // Error display code...
- //ini_set('display_errors', 0); 
- //error_reporting(E_ALL);
+ ini_set('display_errors', 1); 
+ error_reporting(E_ALL);
  
  // Check the size of the post (in a rough fashion) to make sure we can use it.
  if (strlen($_GET['targetPad']) > 0) {
@@ -23,22 +23,17 @@
     // After extraction, set it.
     $targetGUID = $urlParts[1]; // URL GUID
     
-    // Get our keys...
-    $keyA = $dp->createHash($targetURL);
-    $keyB = $dp->createHash($targetGUID);
-    
     // IF this has been satisfied let's load the data layer...
     require("include/data.php");
     $dpdl = new destructoPadData(destructoPadData::DP_MODE_MYSQL); //ERROR HERE
     
     // Look up our pad...
-    $gotPad = $dpdl->getPad($dp->createHash($keyA));
-    
+    $gotPad = $dpdl->getPad($dp->createHash($targetURL));
     
     // Did we get a pad?
     if($gotPad['success'] == TRUE) {
         // If the pad exists decrypt it.
-        $decryptedPad = $dp->getDecrypted($keyA, $keyB, $gotPad['encryptedBlock']);
+        $decryptedPad = $dp->getDecrypted($targetURL, $targetGUID, $gotPad['encryptedBlock']);
         
         // Did the resultant pad pass HMAC validation?
         if($decryptedPad['hmacGood'] == TRUE) {
