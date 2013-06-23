@@ -22,11 +22,12 @@ CREATE PROCEDURE addPad(IN hash BINARY(32), expire TINYINT(4), padData BLOB)
 BEGIN
     INSERT INTO padEntry VALUES (hash, expire, padData);
 END ?
-     
-CREATE PROCEDURE getPad(IN hash BINARY(32), OUT padDataOut BLOB)
+
+CREATE PROCEDURE getPad(IN hash BINARY(32))
 BEGIN
-    SELECT padData INTO padDataOut FROM padEntry WHERE padID = hash LIMIT 1;
+    SELECT padData INTO @encPad FROM padEntry WHERE padID = hash LIMIT 1;
     DELETE FROM padEntry WHERE padID = hash;
+    SELECT @encPad;
 END ?
 
 CREATE PROCEDURE expirePad()
