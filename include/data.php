@@ -252,4 +252,21 @@ class destructoPadData {
         // Return the value.
         return $retVal;
     }
+    
+    // Override DB login creds. This is useful for the MySQL c
+    public function overrideDBCreds($t_user, $t_pass) {
+        // Set up the return value with a default false meaning failure.
+        $retVal = FALSE;
+        
+        // If we provide creds and are in the right mode then execute and call it good.
+        if(!empty($t_user) && !empty($t_pass) && $this->dlMode === $DL_MODE_MYSQL) {
+            // Assign creds.
+            $this->mysqlDbUser = $t_user;
+            $this->mysqlDbPass = $t_pass;
+            $retVal = TRUE;
+        }
+        
+        // Return TRUE if we reassigned the creds, false if we didn't.
+        return $retVal;
+    }
 }
