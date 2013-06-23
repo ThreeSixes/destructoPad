@@ -3,6 +3,10 @@
  * By Josh Lucy <josh{at}lucyindustrial_dawt_com>
  */
 
+ // Error display code...
+ ini_set('display_errors', 1); 
+ error_reporting(E_ALL);
+ 
 class destructoPadData {
     
     /********************
@@ -89,14 +93,14 @@ class destructoPadData {
 		
 		// Error check
 		if(empty($input[0])) { 
-			$retVal['error'] = "Hash is empty."; 
+                    $retVal['error'] = "Pad add error: hash is empty."; 
 		} elseif(empty($input[1])) {
-			$retVal['error'] = "Expired.";
+                    $retVal['error'] = "Pad add error: expire is empty.";
 		} elseif(empty($input[2])) {
-			$retVal['error'] = "Data is empty.";
+                    $retVal['error'] = "Pad add error: data is empty.";
 		} else {
-			// Open the database.
-			$openEngine = $this->mysqlCreateConn();
+		    // Open the database.
+                    $openEngine = $this->mysqlCreateConn();
 		}
         
         // If the engine opened...
@@ -142,62 +146,18 @@ class destructoPadData {
         
         // Open the database.
         $openEngine = $this->mysqlCreateConn();
-		
+        
         // If the engine opened...
         if ($openEngine['success'] === TRUE) {
             // Set our engine object using the returned reference.
             $dbEngine = $openEngine['conn'];
             
-            // Prepare our sproc call and bind variables.
-            if ($getStmt = $dbEngine->prepare("CALL getPad(?,?)")) {
-                
-                // Bind parameters.
-                $getStmt->bind_param('sb', $escHash, $t_hash);
-    		
-                // Execute query...
-                $getStmt->execute();
-                
-		/************ 
-		// Execute query...
-                if ($getStmt->execute())
-                {
-                    // Bind the output to encryptedBlock
-                    $getStmt->bind_result($retVal['encryptedBlock']);
-                    
-                    // Fetch the results.
-                    if($getStmt->fetch()) {
-                        // Did we get one row back.
-                        if($getStmt->num_rows == 1) {
-                            // If and only if we have a row declare success.
-                            $retVal['success'] = TRUE;
-                        }
-                        else {
-                            $retVal['error'] = "No matching pad found.";
-                        }
-                    }
-                    else {
-                        // Set error text.
-                        $retVal['error'] = "MySQL error on fetching pad: " . $getStmt->errno . " - " . $getStmt->error;
-                    }
-                }
-                else {
-                    // Set error text.
-                    $retVal['error'] = "MySQL error on executing get pad: " . $getStmt->errno . " - " . $getStmt->error;
-                } 
-		********************/
-                // Bind the output to encryptedBlock
-                $getStmt->bind_result($retVal['encryptedBlock']);
-		$getStmt->fetch();
-		$getStmt->close();
-            }
-            else {
-                // If we have a failure flag the response and set the error.
-                $retVal['success'] = FALSE;
-                $retVal['error'] = "MySQL error on getting pad: " . $dbEngine->errno . " - " . $dbEngine->error;
-            }
+            // NOW DO THE WORK!
             
-            // Close DB connection properly.
-            $dbEngine->close();
+        }
+        else {
+            // Dump error and bail out!
+            $retVal['error'] = "MySQL error on getting pad during DB engine initialization: " . $dbEngine->errno . " - " . $dbEngine->error;
         }
         
         // Return results
