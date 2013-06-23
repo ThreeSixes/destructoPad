@@ -83,25 +83,25 @@ class destructoPadData {
     }
     
     // Use MySQL to add a pad.
-	private function mysqlAddPad($t_hash, $t_expire, $t_data) {
+    private function mysqlAddPad($t_hash, $t_expire, $t_data) {
         // Set up our return values.
         $retVal['success'] = FALSE;
         $retVal['error'] = NULL;
-        
-		// Prepare input
-		$input = array($t_hash, $t_expire, $t_data);
+                
+        // Prepare input
+        $input = array($t_hash, $t_expire, $t_data);
 		
-		// Error check
-		if(empty($input[0])) { 
-                    $retVal['error'] = "Pad add error: hash is empty."; 
-		} elseif(empty($input[1])) {
-                    $retVal['error'] = "Pad add error: expire is empty.";
-		} elseif(empty($input[2])) {
-                    $retVal['error'] = "Pad add error: data is empty.";
-		} else {
-		    // Open the database.
-                    $openEngine = $this->mysqlCreateConn();
-		}
+        // Error check
+        if(empty($input[0])) { 
+            $retVal['error'] = "Pad add error: hash is empty."; 
+        } elseif(empty($input[1])) {
+            $retVal['error'] = "Pad add error: expire is empty.";
+        } elseif(empty($input[2])) {
+            $retVal['error'] = "Pad add error: data is empty.";
+	} else {
+	    // Open the database.
+            $openEngine = $this->mysqlCreateConn();
+	}
         
         // If the engine opened...
         if ($openEngine['success'] == TRUE) {
@@ -112,7 +112,7 @@ class destructoPadData {
             $addStmt = $dbEngine->stmt_init();
             
             // Prepare our sproc call and bind variables.
-            $addStmt = $dbEngine->prepare("CALL addPad(?, ?, ?)");
+            $addStmt = $dbEngine->prepare("CALL addPad(?, ?, ?);");
             $addStmt->bind_param('sis', $input[0], $input[1], $input[2]);
             
             // Try to execute the prepared statement.
@@ -197,10 +197,70 @@ class destructoPadData {
         // Return results
         return $retVal;
     }
+
+    // Use MySQL to add a pad.
+    private function mysqlExpirePad() {
+        // Set up our return values.
+        $retVal['success'] = FALSE;
+        $retVal['error'] = NULL;
+        
+        // Connect to MySQL
+        $openEngine = $this->mysqlCreateConn();
+	
+        // If the engine opened...
+        if ($openEngine['success'] == TRUE) {
+            // Set our engine object using the returned reference.
+            $dbEngine = $openEngine['conn'];
+            
+            // Initialize our statement creator.
+            $expireStmt = $dbEngine->stmt_init();
+            
+            // Prepare our sproc call and bind variables.
+            $expireStmt = $dbEngine->prepare("CALL expirePad();");
+            
+            // Try to execute the prepared statement.
+            if($expireStmt->execute()) {
+                // If it works flag the response.
+                $retVal['success'] = TRUE;
+            }
+            else {
+                // If we have a failure flag the response and set the error.
+                $retVal['success'] = FALSE;
+                $retVal['error'] = "MySQL error on expiring pad: " . $dbEngine->errno . " - " . $dbEngine->error;
+            }
+            
+            // Close our "expire statement" down.
+            $expireStmt->close();
+            
+            // Close DB connection properly.
+            $dbEngine->close();
+        }
+        
+        // Return results.
+        return $retVal;
+    }
+
     
     /********************
      * Public functions *
      ********************/
+    
+    // Override DB login creds. This is useful for the MySQL pad expiration.
+    public function overrideDBCreds($t_user, $t_pass) {
+        // Set up the return value with a default false meaning failure.
+        $retVal = FALSE;
+        
+        // If we provide creds and are in the right mode then execute and call it good.
+        if(!empty($t_user) && !empty($t_pass) && $this->dlMode === $DL_MODE_MYSQL) {
+            // Assign creds.
+            $this->mysqlDbUser = $t_user;
+            $this->mysqlDbPass = $t_pass;
+            $retVal = TRUE;
+        }
+        
+        // Return TRUE if we reassigned the creds, false if we didn't.
+        return $retVal;
+    }
     
     // Generic function to store a newly-created pad
     public function addPad($t_messageID, $t_expire, $t_encryptedPad) {
@@ -253,20 +313,27 @@ class destructoPadData {
         return $retVal;
     }
     
-    // Override DB login creds. This is useful for the MySQL c
-    public function overrideDBCreds($t_user, $t_pass) {
-        // Set up the return value with a default false meaning failure.
-        $retVal = FALSE;
+    // Generic function to exprire stored pads.
+    public function expirePad() {
+        // Set up return value... each return value should contain these
+        // values.
+        $retVal['success'] = FALSE;
+        $retVal['error'] = NULL;
         
-        // If we provide creds and are in the right mode then execute and call it good.
-        if(!empty($t_user) && !empty($t_pass) && $this->dlMode === $DL_MODE_MYSQL) {
-            // Assign creds.
-            $this->mysqlDbUser = $t_user;
-            $this->mysqlDbPass = $t_pass;
-            $retVal = TRUE;
+        // Determine what mode I'm in.
+        switch($this->dlMode) {
+            // If I'm in MySQL mode
+            case self::DP_MODE_MYSQL:
+                // Expire pads using MySQL
+                $retVal = $this->mysqlExpirePad();
+                break;
+            default:
+                // Do nothing, since we don't know what to do.
+                $retVal['error'] = "Expire get error: invalid data layer mode.";
+                break;
         }
         
-        // Return TRUE if we reassigned the creds, false if we didn't.
+        // Return the value.
         return $retVal;
     }
 }
