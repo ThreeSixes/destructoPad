@@ -26,12 +26,13 @@ body {
 }
 
 .warningText {
-    background-color: #aaaaaa;
+    background-color: #666666;
     color: #ffff00;
     border: dashed;
     border-width: thin;
     font-size: small;
     width: 100%;
+    padding: 3px;
 }
 
 .warningHeader {
