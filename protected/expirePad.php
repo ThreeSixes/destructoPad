@@ -1,5 +1,5 @@
 <?php
-/* DestructoPad pad expiration script
+/* DestructoPad pad expiration script - this file is designed to be run once an hour by CRON or AT.
  * By Josh Lucy <josh{at}lucyindustrial_dawt_com>
  */
 
