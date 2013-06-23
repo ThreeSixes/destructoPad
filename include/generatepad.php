@@ -11,8 +11,8 @@
  */
 
  // Error display code...
- //ini_set('display_errors', 0); 
- //error_reporting(E_ALL);
+ ini_set('display_errors', 1); 
+ error_reporting(E_ALL);
  
  // Check the size of the post (in a rough fashion) to make sure we can use it.
  if (strlen($_POST['pad']) > 0 && strlen($_POST['pad']) < $dp->getMaxPadSize()) {
@@ -46,7 +46,6 @@
         // We don't have the URL enclosed in a link because if the generator of the message
         // clicks the link it gets nuked as designed.
         if ($addWorked['success'] == TRUE) {
-            echo "      <br />\n";
             echo "      <br />\n";
             echo "      Your link is:\n";
             echo "      <br />\n";
